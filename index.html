@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Media Entertainment — Music Distribution &amp; Rights</title>
+<meta name="description" content="The Media Entertainment delivers your catalog to every major platform — with anti-piracy protection, marketing, video and catalog tools built in.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0A0C; --bg-2:#101014; --bg-3:#16161C; --panel:#121218;
+  --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.14);
+  --red:#ED2D3F; --red-bright:#FF4658; --red-deep:#B11423; --red-soft:rgba(237,45,63,.14);
+  --text:#F5F5F7; --muted:#9B9BA6; --faint:#6A6A74;
+  --maxw:1180px; --radius:16px; --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{font-family:"Hanken Grotesk","Hanken Grotesk",sans-serif;font-weight:600;line-height:1.05;letter-spacing:-.02em;margin:0}
+p{margin:0}
+::selection{background:var(--red);color:#fff}
+.wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:24px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:"Hanken Grotesk",sans-serif;font-weight:600;
+  font-size:15px;padding:13px 24px;border-radius:999px;border:1px solid transparent;cursor:pointer;
+  transition:transform .25s var(--ease),box-shadow .3s var(--ease),background .25s;white-space:nowrap}
+.btn-primary{background:var(--red);color:#fff;box-shadow:0 8px 30px -10px rgba(237,45,63,.7)}
+.btn-primary:hover{background:var(--red-bright);transform:translateY(-2px);box-shadow:0 14px 40px -12px rgba(237,45,63,.85)}
+.btn-ghost{background:rgba(255,255,255,.04);color:var(--text);border-color:var(--line-2)}
+.btn-ghost:hover{background:rgba(255,255,255,.09);transform:translateY(-2px)}
+.btn-lg{padding:16px 30px;font-size:16px}
+.btn .arr{transition:transform .25s var(--ease)}
+.btn:hover .arr{transform:translateX(3px)}
+
+/* logo */
+.logo{display:inline-flex;align-items:center;gap:11px;cursor:pointer}
+.logo-mark{width:34px;height:38px;filter:drop-shadow(0 0 10px rgba(237,45,63,.55));flex:none}
+.logo-text{display:flex;flex-direction:column;line-height:1}
+.logo-text b{font-family:"Hanken Grotesk",sans-serif;font-weight:700;font-size:16px;letter-spacing:.04em;color:var(--red)}
+.logo-text span{font-size:9.5px;letter-spacing:.42em;text-transform:uppercase;color:#cfcfd6;margin-top:3px;padding-left:1px}
+
+/* nav */
+.nav{position:fixed;inset:0 0 auto 0;z-index:60;backdrop-filter:blur(14px);background:rgba(10,10,12,.62);
+  border-bottom:1px solid transparent;transition:background .3s,border-color .3s}
+.nav.scrolled{background:rgba(10,10,12,.9);border-bottom-color:var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:72px}
+.nav-links{display:flex;align-items:center;gap:34px}
+.nav-links a{color:var(--muted);font-size:14.5px;font-weight:500;transition:color .2s;cursor:pointer}
+.nav-links a:hover{color:var(--text)}
+.nav-right{display:flex;align-items:center;gap:18px}
+.nav-right .login-link{color:var(--muted);font-size:14.5px;font-weight:500;cursor:pointer}
+.nav-right .login-link:hover{color:var(--text)}
+.nav-toggle{display:none;background:none;border:0;cursor:pointer;padding:8px}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--text);margin:5px 0;transition:.3s}
+
+/* sections */
+.section{padding:110px 0;position:relative}
+.eyebrow{font-family:"Hanken Grotesk",sans-serif;font-size:12px;font-weight:600;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--red);display:inline-flex;align-items:center;gap:9px}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--red);display:inline-block}
+.section-head{max-width:640px;margin-bottom:54px}
+.section-head h2{font-size:clamp(30px,4.4vw,46px);margin:18px 0 14px}
+.section-head p{color:var(--muted);font-size:17px}
+.glow{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;opacity:.5}
+
+/* footer */
+.footer{border-top:1px solid var(--line);padding:72px 0 40px;background:var(--bg-2)}
+.footer-grid{display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:48px}
+.footer .col h5{font-family:"Hanken Grotesk",sans-serif;font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--faint);margin:0 0 18px;font-weight:600}
+.footer .col a{display:block;color:var(--muted);font-size:14.5px;margin-bottom:12px;transition:color .2s;cursor:pointer}
+.footer .col a:hover{color:var(--text)}
+.footer .brand-col p{color:var(--muted);font-size:14.5px;margin-top:18px;max-width:280px}
+.footer-bottom{margin-top:56px;padding-top:26px;border-top:1px solid var(--line);display:flex;
+  justify-content:space-between;align-items:center;gap:16px;color:var(--faint);font-size:13.5px;flex-wrap:wrap}
+
+/* hero */
+.hero{position:relative;padding:170px 0 90px;overflow:hidden}
+.hero .glow-1{width:620px;height:620px;top:-180px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(237,45,63,.32),transparent 70%)}
+.hero .glow-2{width:380px;height:380px;bottom:-120px;right:-80px;background:radial-gradient(circle,rgba(237,45,63,.16),transparent 70%)}
+.hero-in{position:relative;z-index:2;text-align:center;max-width:840px;margin-inline:auto}
+.hero h1{font-size:clamp(40px,7vw,78px);margin:22px 0 22px}
+.hero h1 .accent{color:var(--red)}
+.hero p.lead{color:var(--muted);font-size:clamp(17px,2.2vw,20px);max-width:580px;margin:0 auto 36px}
+.hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.trust-line{margin-top:46px;color:var(--faint);font-size:13px;letter-spacing:.04em}
+
+/* platforms */
+.orbit-sec{padding:84px 0 100px}
+.orbit-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center}
+.orbit-copy h2{font-size:clamp(30px,4.2vw,44px);margin:16px 0 14px}
+.orbit-copy p{color:var(--muted);font-size:17px;max-width:430px}
+.orbit-tags{margin-top:26px;display:inline-flex;align-items:center;gap:9px;font-size:13.5px;color:var(--muted);
+  border:1px dashed var(--line-2);border-radius:999px;padding:9px 17px}
+.orbit-tags b{color:var(--red);font-weight:700}
+.orbit-stage{position:relative;width:100%;aspect-ratio:1/1;max-width:500px;margin-inline:auto}
+.ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border:1px dashed rgba(255,255,255,.09);border-radius:50%}
+.ring.r1{width:40%;height:40%}.ring.r2{width:70%;height:70%}.ring.r3{width:99%;height:99%}
+.hub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:88px;height:88px;border-radius:24px;
+  background:var(--bg-2);border:1px solid var(--line-2);display:grid;place-items:center;z-index:2;
+  box-shadow:0 0 60px -6px rgba(237,45,63,.5)}
+.hub svg{width:40px;height:44px;filter:drop-shadow(0 0 9px rgba(237,45,63,.6))}
+.sat{position:absolute;width:56px;height:56px;border-radius:17px;display:grid;place-items:center;
+  background:var(--bg-2);border:1px solid var(--line);transform:translate(-50%,-50%);z-index:1;
+  box-shadow:0 10px 30px -12px var(--pg);animation:floaty 6s ease-in-out infinite;animation-delay:var(--d);
+  transition:scale .25s,box-shadow .3s}
+.sat::before{content:"";position:absolute;inset:0;border-radius:17px;opacity:.2;mix-blend-mode:screen;
+  background:radial-gradient(circle at 50% 34%,var(--pg),transparent 70%)}
+.sat svg{width:30px;height:30px;position:relative;z-index:1;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--pg) 50%,transparent))}
+.sat:hover{scale:1.13;z-index:3;box-shadow:0 16px 44px -10px var(--pg)}
+@keyframes floaty{0%,100%{translate:0 0}50%{translate:0 -9px}}
+
+/* services */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.svc-card{background:var(--bg-2);border:1px solid var(--line);border-radius:18px;padding:30px 28px 32px;
+  transition:transform .3s var(--ease),border-color .3s,background .3s;position:relative;overflow:hidden}
+.svc-card::after{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--red),transparent);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+.svc-card:hover{transform:translateY(-5px);border-color:var(--line-2);background:var(--bg-3)}
+.svc-card:hover::after{transform:scaleX(1)}
+.svc-icon{width:50px;height:50px;border-radius:13px;display:grid;place-items:center;background:var(--red-soft);
+  color:var(--red);margin-bottom:20px;box-shadow:inset 0 0 0 1px rgba(237,45,63,.2)}
+.svc-card h3{font-size:20px;margin-bottom:10px}
+.svc-card p{color:var(--muted);font-size:14.5px;line-height:1.65}
+
+/* stats */
+.stats{border-block:1px solid var(--line);background:var(--bg-2)}
+.stats-in{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:54px 0}
+.stat{text-align:center}
+.stat b{font-family:"Hanken Grotesk";font-size:clamp(30px,4vw,44px);color:#fff;display:block}
+.stat b .u{color:var(--red)}
+.stat span{color:var(--muted);font-size:13.5px;letter-spacing:.04em}
+
+/* highlights */
+.hl-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:18px}
+.hl{background:var(--bg-2);border:1px solid var(--line);border-radius:18px;padding:30px;display:flex;flex-direction:column;min-height:230px}
+.hl .visual{flex:1;display:flex;align-items:center;justify-content:center;margin-bottom:22px}
+.hl h3{font-size:19px;margin-bottom:9px}
+.hl p{color:var(--muted);font-size:14px}
+.chip{background:var(--red);color:#fff;border-radius:12px;padding:14px 18px;font-family:"Hanken Grotesk";font-weight:600;box-shadow:0 12px 34px -12px rgba(237,45,63,.8)}
+.chip small{display:block;font-weight:500;font-size:11px;opacity:.85}
+.link-pill{background:rgba(255,255,255,.05);border:1px solid var(--line-2);border-radius:12px;padding:12px 16px;font-size:13px;color:var(--muted);width:100%;text-align:center}
+
+/* cta band */
+.cta-band{text-align:center;position:relative;overflow:hidden}
+.cta-band .glow{width:520px;height:300px;top:20px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(237,45,63,.22),transparent 70%)}
+.cta-band h2{font-size:clamp(32px,5vw,52px);position:relative;z-index:2}
+.cta-band p{color:var(--muted);margin:16px auto 30px;max-width:480px;position:relative;z-index:2}
+.cta-band .hero-cta{position:relative;z-index:2}
+
+/* ===== forms ===== */
+.form-shell{padding:118px 0 90px;position:relative}
+.form-shell .glow{width:480px;height:480px;top:-40px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(237,45,63,.18),transparent 70%)}
+.form-intro{text-align:center;max-width:580px;margin:0 auto 36px;position:relative;z-index:2}
+.form-intro h1{font-size:clamp(30px,5vw,44px);margin:16px 0 12px}
+.form-intro p{color:var(--muted)}
+.form-tabs{display:flex;max-width:760px;margin:0 auto;position:relative;z-index:2;border-radius:14px 14px 0 0;overflow:hidden;border:1px solid var(--line);border-bottom:0}
+.form-tabs a{flex:1;text-align:center;padding:18px 14px;font-family:"Hanken Grotesk",sans-serif;font-weight:600;font-size:15px;color:var(--muted);background:var(--bg-2);transition:.25s;border-bottom:1px solid var(--line);cursor:pointer}
+.form-tabs a.active{color:#fff;background:var(--red);border-bottom-color:var(--red)}
+.form-tabs a:not(.active):hover{color:var(--text);background:var(--bg-3)}
+.form-card{max-width:760px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:0 0 18px 18px;padding:44px clamp(22px,4vw,46px) 48px;position:relative;z-index:2}
+.form-step{font-family:"Hanken Grotesk",sans-serif;font-size:13px;letter-spacing:.18em;color:var(--red);font-weight:600;margin:34px 0 20px}
+.form-step:first-of-type{margin-top:0}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.field{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.field.full{grid-column:1/-1}
+.field label{font-size:14px;font-weight:600;color:var(--text)}
+.field label .req{color:var(--red)}
+.field input,.field select,.field textarea{width:100%;background:var(--bg);border:1px solid var(--line-2);color:var(--text);border-radius:11px;padding:13px 15px;font-size:15px;font-family:inherit;transition:border-color .2s,box-shadow .2s}
+.field textarea{resize:vertical;min-height:120px}
+.field input::placeholder,.field textarea::placeholder{color:var(--faint)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px var(--red-soft)}
+.field select{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%239B9BA6' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center;padding-right:38px}
+.choice-group{display:flex;flex-wrap:wrap;gap:12px}
+.choice{display:inline-flex;align-items:center;gap:9px;cursor:pointer;background:var(--bg);border:1px solid var(--line-2);border-radius:10px;padding:11px 16px;font-size:14.5px;transition:.2s;user-select:none}
+.choice:hover{border-color:var(--red)}
+.choice input{accent-color:var(--red);width:16px;height:16px;cursor:pointer}
+.choice.checked{border-color:var(--red);background:var(--red-soft)}
+.consent{display:flex;gap:11px;align-items:flex-start;margin:14px 0;font-size:14px;color:var(--muted)}
+.consent input{accent-color:var(--red);width:17px;height:17px;margin-top:2px;flex:none}
+.consent a{color:var(--text);text-decoration:underline;text-underline-offset:2px}
+.form-actions{margin-top:30px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.form-note{color:var(--faint);font-size:13px}
+.form-success{display:none;text-align:center;padding:40px 20px}
+.form-success.show{display:block}
+.form-success .tick{width:64px;height:64px;border-radius:50%;background:var(--red-soft);display:grid;place-items:center;margin:0 auto 22px;color:var(--red)}
+.form-success h3{font-size:24px;margin-bottom:10px}
+.form-success p{color:var(--muted)}
+
+/* login */
+.login-wrap{display:grid;place-items:center;padding:150px 24px 90px;position:relative;min-height:80vh}
+.login-wrap .glow-a{width:520px;height:520px;top:0;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(237,45,63,.22),transparent 70%)}
+.login-card{width:100%;max-width:420px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:40px 34px;position:relative;z-index:2}
+.login-card .logo{justify-content:center;margin-bottom:26px}
+.login-card h1{font-size:26px;text-align:center}
+.login-card .sub{text-align:center;color:var(--muted);font-size:14.5px;margin:8px 0 28px}
+.login-meta{display:flex;justify-content:space-between;align-items:center;margin:-4px 0 22px;font-size:13.5px}
+.login-meta a{color:var(--red);font-weight:500;cursor:pointer}
+.login-meta label{color:var(--muted);display:flex;align-items:center;gap:7px;cursor:pointer}
+.login-meta label input{accent-color:var(--red)}
+.login-card .btn{width:100%;justify-content:center}
+.login-foot{text-align:center;color:var(--muted);font-size:14px;margin-top:24px}
+.login-foot a{color:var(--red);font-weight:600;cursor:pointer}
+
+/* views */
+.view{display:none}
+.view.active{display:block}
+
+@media (max-width:900px){
+  .footer-grid{grid-template-columns:1fr 1fr;gap:36px}
+  .footer .brand-col{grid-column:1/-1}
+  .pf-grid{grid-template-columns:repeat(4,1fr)}
+  .orbit-grid{grid-template-columns:1fr;gap:34px}
+  .orbit-copy{order:-1;text-align:center}
+  .orbit-copy p{margin-inline:auto}
+  .orbit-stage{max-width:420px}
+  .svc-grid{grid-template-columns:1fr 1fr}
+  .stats-in{grid-template-columns:1fr 1fr;gap:34px}
+  .hl-grid{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .nav-links,.nav-right .login-link{display:none}
+  .nav-toggle{display:block}
+  .nav.open .nav-links{display:flex;position:absolute;top:72px;left:0;right:0;flex-direction:column;gap:0;background:var(--bg-2);border-bottom:1px solid var(--line);padding:8px 24px 20px}
+  .nav.open .nav-links a{padding:13px 0;width:100%;border-bottom:1px solid var(--line)}
+  .section{padding:78px 0}
+  .form-row{grid-template-columns:1fr;gap:0}
+  .footer-grid{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .pf-grid{grid-template-columns:repeat(3,1fr)}
+  .orbit-stage{max-width:320px}
+  .sat{width:46px;height:46px;border-radius:14px}.sat svg{width:25px;height:25px}
+  .hub{width:68px;height:68px;border-radius:20px}.hub svg{width:32px;height:35px}
+  .svc-grid{grid-template-columns:1fr}
+  .hero{padding-top:130px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="logo" data-view="home" aria-label="The Media Entertainment home">
+      <svg class="logo-mark" viewBox="0 0 40 44" fill="none" aria-hidden="true">
+        <path d="M13.5 7 L31 11" stroke="var(--red)" stroke-width="4.5" stroke-linecap="round"/>
+        <rect x="11.2" y="7" width="4.6" height="25" rx="2.3" fill="var(--red)"/>
+        <rect x="28.6" y="11" width="4.6" height="21" rx="2.3" fill="var(--red)"/>
+        <circle cx="9.8" cy="34" r="6.8" fill="var(--red)"/>
+        <circle cx="27.2" cy="34" r="6.8" fill="var(--red)"/>
+      </svg>
+      <span class="logo-text"><b>THE MEDIA</b><span>Entertainment</span></span>
+    </a>
+    <nav class="nav-links">
+      <a data-view="home" data-scroll="services">Services</a>
+      <a data-view="home" data-scroll="platforms">Platforms</a>
+      <a data-view="home" data-scroll="why">Why us</a>
+      <a data-view="legal">Legal</a>
+    </nav>
+    <div class="nav-right">
+      <a class="login-link" data-view="login">Client login</a>
+      <a class="btn btn-primary" data-view="apply">Apply now</a>
+      <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HOME ============ -->
+<div class="view active" id="view-home">
+
+  <section class="hero">
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="wrap hero-in">
+      <span class="eyebrow" style="justify-content:center;">Music distribution &amp; rights</span>
+      <h1>Your music,<br>everywhere <span class="accent">it matters.</span></h1>
+      <p class="lead">We deliver your catalog to every major platform — and back it with anti-piracy protection, marketing, video and catalog tools, all in one place.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary btn-lg" data-view="apply">Apply now <span class="arr">→</span></a>
+        <a class="btn btn-ghost btn-lg" data-view="home" data-scroll="services">Explore services</a>
+      </div>
+      <p class="trust-line">Trusted by independent artists, labels and publishers across the region.</p>
+    </div>
+  </section>
+
+  <section class="section orbit-sec" id="platforms">
+    <div class="wrap orbit-grid">
+      <div class="orbit-stage">
+        <span class="ring r1"></span><span class="ring r2"></span><span class="ring r3"></span>
+        <div class="hub">
+          <svg viewBox="0 0 40 44" fill="none" aria-hidden="true">
+            <path d="M13.5 7 L31 11" stroke="var(--red)" stroke-width="4.5" stroke-linecap="round"/>
+            <rect x="11.2" y="7" width="4.6" height="25" rx="2.3" fill="var(--red)"/>
+            <rect x="28.6" y="11" width="4.6" height="21" rx="2.3" fill="var(--red)"/>
+            <circle cx="9.8" cy="34" r="6.8" fill="var(--red)"/>
+            <circle cx="27.2" cy="34" r="6.8" fill="var(--red)"/>
+          </svg>
+        </div>
+        <div class="sat" title="Spotify" style="left:50%;top:7%;--pg:#1DB954;--d:0s"><svg viewBox="0 0 24 24"><path fill="#1DB954" d="M12 0a12 12 0 100 24 12 12 0 000-24zm5.5 17.3a.75.75 0 01-1 .25c-2.8-1.7-6.3-2.1-10.4-1.2a.75.75 0 11-.33-1.46c4.5-1 8.4-.55 11.5 1.36.36.22.47.69.25 1.05zm1.47-3.27a.94.94 0 01-1.29.31c-3.2-1.97-8.1-2.55-11.9-1.4a.94.94 0 11-.54-1.8c4.34-1.31 9.74-.66 13.42 1.6.44.27.58.85.31 1.29zm.13-3.4C15.3 8.05 8.9 7.82 5.2 8.95a1.12 1.12 0 11-.65-2.15c4.25-1.29 11.32-1.04 15.78 1.6a1.12 1.12 0 01-1.15 1.93z"/></svg></div>
+        <div class="sat" title="Apple Music" style="left:79%;top:16%;--pg:#FA243C;--d:.4s"><svg viewBox="0 0 24 24"><defs><linearGradient id="am" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FB5C74"/><stop offset="1" stop-color="#FA233B"/></linearGradient></defs><rect x="1" y="1" width="22" height="22" rx="6" fill="url(#am)"/><path d="M15.6 6.1l-6 1.45v6.85a2.25 2.25 0 10.9 1.8V9.75l4.2-1v3.95a2.25 2.25 0 10.9 1.8V6.1z" fill="#fff"/></svg></div>
+        <div class="sat" title="YouTube Music" style="left:93%;top:45%;--pg:#FF0000;--d:.8s"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#FF0000"/><path d="M9.6 7.4v9.2L16.6 12z" fill="#fff"/></svg></div>
+        <div class="sat" title="TikTok" style="left:82%;top:75%;--pg:#25F4EE;--d:1.2s"><svg viewBox="0 0 24 24"><path d="M16.5 3c.3 2 1.5 3.4 3.5 3.7v2.5c-1.4.1-2.6-.3-3.7-1v5.6a5.3 5.3 0 11-5.3-5.3c.3 0 .6 0 .9.07v2.7a2.6 2.6 0 102.1 2.53V3h2.5z" fill="#25F4EE" transform="translate(-.8 .7)"/><path d="M16.5 3c.3 2 1.5 3.4 3.5 3.7v2.5c-1.4.1-2.6-.3-3.7-1v5.6a5.3 5.3 0 11-5.3-5.3c.3 0 .6 0 .9.07v2.7a2.6 2.6 0 102.1 2.53V3h2.5z" fill="#FE2C55" transform="translate(.8 -.7)"/><path d="M16.5 3c.3 2 1.5 3.4 3.5 3.7v2.5c-1.4.1-2.6-.3-3.7-1v5.6a5.3 5.3 0 11-5.3-5.3c.3 0 .6 0 .9.07v2.7a2.6 2.6 0 102.1 2.53V3h2.5z" fill="#fff"/></svg></div>
+        <div class="sat" title="Anghami" style="left:54%;top:93%;--pg:#B026FF;--d:1.6s"><svg viewBox="0 0 24 24"><defs><linearGradient id="an" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C13BFF"/><stop offset="1" stop-color="#6E0AD6"/></linearGradient></defs><rect x="1" y="1" width="22" height="22" rx="6" fill="url(#an)"/><g fill="#fff"><rect x="7.5" y="9.5" width="2" height="5" rx="1"/><rect x="11" y="6" width="2" height="12" rx="1"/><rect x="14.5" y="10.5" width="2" height="3" rx="1"/></g></svg></div>
+        <div class="sat" title="Deezer" style="left:23%;top:84%;--pg:#FF6600;--d:2s"><svg viewBox="0 0 24 24"><rect x="2" y="15" width="4" height="3" rx="1" fill="#40AB5D"/><rect x="7" y="12" width="4" height="6" rx="1" fill="#FFCC00"/><rect x="12" y="9" width="4" height="9" rx="1" fill="#FF6600"/><rect x="17" y="6" width="4" height="12" rx="1" fill="#FF0092"/></svg></div>
+        <div class="sat" title="Amazon Music" style="left:8%;top:52%;--pg:#00A8E1;--d:2.4s"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#00A8E1"/><path d="M14.8 7l-5.2 1.3v6.5a2 2 0 10.9 1.7V9.9l3.4-.85v3.55a2 2 0 10.9 1.7V7z" fill="#fff"/></svg></div>
+        <div class="sat" title="SoundCloud" style="left:17%;top:22%;--pg:#FF5500;--d:2.8s"><svg viewBox="0 0 24 24" fill="#FF5500"><rect x="3" y="11" width="1.5" height="6" rx=".75"/><rect x="6" y="9" width="1.5" height="8" rx=".75"/><rect x="9" y="7.5" width="1.5" height="9.5" rx=".75"/><rect x="12" y="9" width="1.5" height="8" rx=".75"/><path d="M15 9a5 5 0 015 5v.3a2.7 2.7 0 01-2.7 2.7H15z"/></svg></div>
+        <div class="sat" title="Instagram" style="left:65%;top:34%;--pg:#D6249F;--d:.6s"><svg viewBox="0 0 24 24"><defs><radialGradient id="ig" cx="30%" cy="107%" r="150%"><stop offset="0" stop-color="#FDF497"/><stop offset=".25" stop-color="#FD5949"/><stop offset=".5" stop-color="#D6249F"/><stop offset="1" stop-color="#285AEB"/></radialGradient></defs><rect x="1" y="1" width="22" height="22" rx="7" fill="url(#ig)"/><rect x="5.5" y="5.5" width="13" height="13" rx="5" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="3.1" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="16.4" cy="7.6" r="1.05" fill="#fff"/></svg></div>
+        <div class="sat" title="Tidal" style="left:36%;top:66%;--pg:#9aa7ff;--d:1.4s"><svg viewBox="0 0 24 24" fill="#fff"><path d="M4 6l3 3-3 3-3-3z"/><path d="M10 6l3 3-3 3-3-3z"/><path d="M16 6l3 3-3 3-3-3z"/><path d="M10 12l3 3-3 3-3-3z"/></svg></div>
+        <div class="sat" title="Facebook" style="left:70%;top:61%;--pg:#1877F2;--d:1.8s"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#1877F2"/><path d="M14.4 12.4h2l.4-2.6h-2.4V8.1c0-.75.37-1.47 1.55-1.47H17V4.4s-1.06-.18-2.08-.18c-2.12 0-3.5 1.28-3.5 3.6V9.8H9.2v2.6h2.22V19h2.98z" fill="#fff"/></svg></div>
+      </div>
+      <div class="orbit-copy">
+        <span class="eyebrow">Distribution</span>
+        <h2>Available everywhere people listen</h2>
+        <p>One upload reaches 150+ stores and platforms — from global giants to the apps your audience actually opens.</p>
+        <div class="orbit-tags"><b>+150</b>&nbsp; more stores &amp; platforms</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="services" style="padding-top:30px;">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">What we do</span>
+        <h2>One partner for the whole release</h2>
+        <p>From the first upload to royalty payouts — distribution, protection, promotion and the tools to run your catalog.</p>
+      </div>
+      <div class="svc-grid">
+        <div class="svc-card"><div class="svc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15.5 0 18M12 3c-2.5 2.5-2.5 15.5 0 18"/></svg></div><h3>Music Distribution</h3><p>Deliver your releases to Spotify, Apple Music, Anghami, YouTube, TikTok and 150+ more — on the schedule you choose.</p></div>
+        <div class="svc-card"><div class="svc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div><h3>Anti-Piracy &amp; Protection</h3><p>We monitor, claim and take down unauthorized uploads across platforms, so your rights and revenue stay yours.</p></div>
+        <div class="svc-card"><div class="svc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 11v2a1 1 0 001 1h2l5 4V6L6 10H4a1 1 0 00-1 1z"/><path d="M15.5 8.5a5 5 0 010 7M18 6a9 9 0 010 12"/></svg></div><h3>Marketing &amp; Promotion</h3><p>Playlist pitching, editorial outreach and release campaigns that put your music in front of the right audience.</p></div>
+        <div class="svc-card"><div class="svc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg></div><h3>Video Editing</h3><p>Visualizers, lyric videos and short-form cuts built and formatted for YouTube, Reels and TikTok.</p></div>
+        <div class="svc-card"><div class="svc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l9 4-9 4-9-4z"/><path d="M3 12l9 4 9-4M3 16l9 4 9-4"/></svg></div><h3>Catalog Management</h3><p>One dashboard to organize releases, metadata, splits and rights across your entire catalog.</p></div>
+        <div class="svc-card"><div class="svc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M10 13h6M10 17h6"/></svg></div><h3>Rights &amp; Royalties</h3><p>Content ID, YouTube claims and clear royalty reporting — paid out transparently, on time.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="wrap stats-in">
+      <div class="stat"><b>150<span class="u">+</span></b><span>Stores &amp; platforms</span></div>
+      <div class="stat"><b>100K<span class="u">+</span></b><span>Tracks delivered</span></div>
+      <div class="stat"><b>24<span class="u">/7</span></b><span>Rights monitoring</span></div>
+      <div class="stat"><b>30<span class="u">+</span></b><span>Countries reached</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="why">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Built around you</span>
+        <h2>More than a pipeline to the stores</h2>
+        <p>The extras that turn a release into a business.</p>
+      </div>
+      <div class="hl-grid">
+        <div class="hl"><div class="visual"><div class="link-pill">tme.fm/your-release&nbsp;&nbsp;·&nbsp;&nbsp;Copy</div></div><h3>Smart release links</h3><p>Auto-generated landing pages that send every fan to their platform of choice — one link for the whole release.</p></div>
+        <div class="hl"><div class="visual"><div class="chip">Accept offer<small>Advance · $100,000</small></div></div><h3>Catalog funding</h3><p>Get early access to future earnings from your catalog and upcoming releases.</p></div>
+        <div class="hl"><div class="visual"><div class="link-pill">★ &nbsp;Your label, your brand</div></div><h3>White-label &amp; enterprise</h3><p>Bespoke services for larger labels, distributors and rights holders who need their own front door.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-band">
+    <div class="glow"></div>
+    <div class="wrap">
+      <h2>Ready to be heard?</h2>
+      <p>Tell us about your music and catalog. We&rsquo;ll get you set up to release, protect and grow.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary btn-lg" data-view="apply">Apply now <span class="arr">→</span></a>
+        <a class="btn btn-ghost btn-lg" data-view="login">Client login</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ APPLY ============ -->
+<div class="view" id="view-apply">
+  <main class="form-shell">
+    <div class="glow"></div>
+    <div class="wrap">
+      <div class="form-intro">
+        <span class="eyebrow" style="justify-content:center;">Become a client</span>
+        <h1>Apply to The Media</h1>
+        <p>Artists, labels, songwriters and publishers — tell us about your music and we&rsquo;ll be in touch.</p>
+      </div>
+      <div class="form-tabs">
+        <a class="active" data-view="apply">Artists, Labels &amp; Publishers</a>
+        <a data-view="legal">Legal &amp; copyright</a>
+      </div>
+      <div class="form-card">
+        <form data-form novalidate>
+          <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+          <input type="hidden" name="subject" value="New application — The Media Entertainment">
+          <input type="hidden" name="from_name" value="The Media — Apply form">
+          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
+          <div class="form-step">(01) &nbsp; About you</div>
+          <div class="field full">
+            <label>You are <span class="req">*</span></label>
+            <div class="choice-group" role="radiogroup">
+              <label class="choice"><input type="radio" name="role" value="Artist" required> Artist</label>
+              <label class="choice"><input type="radio" name="role" value="Label"> Label</label>
+              <label class="choice"><input type="radio" name="role" value="Songwriter & Publisher"> Songwriter &amp; Publisher</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>First name <span class="req">*</span></label><input type="text" name="first_name" placeholder="Your first name" required></div>
+            <div class="field"><label>Last name <span class="req">*</span></label><input type="text" name="last_name" placeholder="Your last name" required></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>Email <span class="req">*</span></label><input type="email" name="email" placeholder="you@email.com" required></div>
+            <div class="field"><label>Phone <span class="req">*</span></label><input type="tel" name="phone" placeholder="+20 …" required></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>Country <span class="req">*</span></label><select name="country" required><option value="" disabled selected>Select</option><option>Egypt</option><option>Saudi Arabia</option><option>United Arab Emirates</option><option>Kuwait</option><option>Qatar</option><option>Jordan</option><option>Lebanon</option><option>Morocco</option><option>Algeria</option><option>Tunisia</option><option>Iraq</option><option>Other</option></select></div>
+            <div class="field"><label>City <span class="req">*</span></label><input type="text" name="city" placeholder="Your city" required></div>
+          </div>
+          <div class="form-step">(02) &nbsp; About your music</div>
+          <div class="field full"><label>Artist, band or label name <span class="req">*</span></label><input type="text" name="act_name" placeholder="Your name" required></div>
+          <div class="form-row">
+            <div class="field"><label>Main genre <span class="req">*</span></label><select name="genre" required><option value="" disabled selected>Select</option><option>Mahraganat</option><option>Pop</option><option>Hip-Hop / Rap</option><option>Shaabi</option><option>Arabic Classical / Tarab</option><option>Electronic</option><option>Rock</option><option>R&amp;B</option><option>Other</option></select></div>
+            <div class="field"><label>Current distributor <span class="req">*</span></label><select name="current_distributor" required><option value="" disabled selected>Select</option><option>None / Unreleased</option><option>Believe</option><option>OneRPM</option><option>DistroKid</option><option>TuneCore</option><option>Self-distributed</option><option>Other</option></select></div>
+          </div>
+          <div class="field full"><label>Tracks released (all albums, EPs, singles) <span class="req">*</span></label><select name="track_count" required><option value="" disabled selected>Select</option><option>0 (not released yet)</option><option>1–10</option><option>11–50</option><option>51–200</option><option>201–1,000</option><option>1,000+</option></select></div>
+          <div class="form-row">
+            <div class="field"><label>Date of first release <span class="req">*</span></label><input type="date" name="first_release" required></div>
+            <div class="field"><label>Date of last release</label><input type="date" name="last_release"></div>
+          </div>
+          <div class="field full"><label>Private link for your next release / project</label><input type="url" name="private_link" placeholder="https://"></div>
+          <div class="field full"><label>Streaming platforms you&rsquo;re on</label><div class="choice-group">
+            <label class="choice"><input type="checkbox" name="platforms" value="Spotify"> Spotify</label>
+            <label class="choice"><input type="checkbox" name="platforms" value="Apple Music"> Apple Music</label>
+            <label class="choice"><input type="checkbox" name="platforms" value="Anghami"> Anghami</label>
+            <label class="choice"><input type="checkbox" name="platforms" value="YouTube"> YouTube</label></div></div>
+          <div class="field full"><label>Monthly listeners on your main platform <span class="req">*</span></label><select name="monthly_listeners" required><option value="" disabled selected>Select</option><option>Under 1,000</option><option>1,000–10,000</option><option>10,000–100,000</option><option>100,000–1M</option><option>1M+</option></select></div>
+          <div class="field full"><label>Social media presence</label><div class="choice-group">
+            <label class="choice"><input type="checkbox" name="social" value="Instagram"> Instagram</label>
+            <label class="choice"><input type="checkbox" name="social" value="Facebook"> Facebook</label>
+            <label class="choice"><input type="checkbox" name="social" value="TikTok"> TikTok</label>
+            <label class="choice"><input type="checkbox" name="social" value="YouTube"> YouTube</label>
+            <label class="choice"><input type="checkbox" name="social" value="Anghami"> Anghami</label></div></div>
+          <label class="consent"><input type="checkbox" name="consent" required><span>I agree to The Media Entertainment&rsquo;s <a data-view="legal">Privacy &amp; Terms</a>, and confirm the information above is accurate. <span class="req">*</span></span></label>
+          <div class="form-actions"><button type="submit" class="btn btn-primary btn-lg">Submit application <span class="arr">→</span></button><span class="form-note">We reply to most applications within 2–3 business days.</span></div>
+        </form>
+        <div class="form-success"><div class="tick"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l4 4 10-10"/></svg></div><h3>Application received</h3><p>Thanks — our team will review your details and get back to you soon at the email you provided.</p></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ============ LEGAL ============ -->
+<div class="view" id="view-legal">
+  <main class="form-shell">
+    <div class="glow"></div>
+    <div class="wrap">
+      <div class="form-intro">
+        <span class="eyebrow" style="justify-content:center;">Rights &amp; takedowns</span>
+        <h1>Report a legal issue</h1>
+        <p>If your work was distributed without authorization, or you have a copyright concern, send us the details below.</p>
+      </div>
+      <div class="form-tabs">
+        <a data-view="apply">Artists, Labels &amp; Publishers</a>
+        <a class="active" data-view="legal">Legal &amp; copyright</a>
+      </div>
+      <div class="form-card">
+        <form data-form novalidate>
+          <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+          <input type="hidden" name="subject" value="New legal / copyright claim — The Media Entertainment">
+          <input type="hidden" name="from_name" value="The Media — Legal form">
+          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
+          <div class="form-step">(01) &nbsp; Who you are</div>
+          <div class="field full"><label>Media type <span class="req">*</span></label><div class="choice-group" role="radiogroup">
+            <label class="choice"><input type="radio" name="media" value="Audio & other" required> Audio &amp; other</label>
+            <label class="choice"><input type="radio" name="media" value="Video"> Video</label></div></div>
+          <div class="form-row">
+            <div class="field"><label>First name <span class="req">*</span></label><input type="text" name="first_name" placeholder="Your first name" required></div>
+            <div class="field"><label>Last name <span class="req">*</span></label><input type="text" name="last_name" placeholder="Your last name" required></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>Legal representative</label><input type="text" name="legal_rep" placeholder="Legal representative"></div>
+            <div class="field"><label>Company name</label><input type="text" name="company" placeholder="Company name"></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>Country <span class="req">*</span></label><select name="country" required><option value="" disabled selected>Select</option><option>Egypt</option><option>Saudi Arabia</option><option>United Arab Emirates</option><option>Kuwait</option><option>Qatar</option><option>Jordan</option><option>Lebanon</option><option>Morocco</option><option>Algeria</option><option>Tunisia</option><option>Iraq</option><option>Other</option></select></div>
+            <div class="field"><label>City <span class="req">*</span></label><input type="text" name="city" placeholder="Your city" required></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>Email <span class="req">*</span></label><input type="email" name="email" placeholder="you@email.com" required></div>
+            <div class="field"><label>Phone <span class="req">*</span></label><input type="tel" name="phone" placeholder="+20 …" required></div>
+          </div>
+          <div class="form-step">(02) &nbsp; The issue</div>
+          <div class="field full"><label>Description of the copyright / legal issue <span class="req">*</span></label><textarea name="description" placeholder="Describe the work, where it appears, release/UPC/ISRC if known, and what the problem is." required></textarea></div>
+          <div class="field full"><label>Territories where the problem exists <span class="req">*</span></label><textarea name="territories" placeholder="e.g. Worldwide, or list specific countries / platforms." required></textarea></div>
+          <label class="consent"><input type="checkbox" name="c1" required><span>I have a good-faith belief that the use of the material is not authorized by the copyright owner, its agent, or the law. <span class="req">*</span></span></label>
+          <label class="consent"><input type="checkbox" name="c2" required><span>The information in this claim is accurate, and under penalty of perjury I am the copyright owner or authorized to act on the owner&rsquo;s behalf. <span class="req">*</span></span></label>
+          <label class="consent"><input type="checkbox" name="c3" required><span>I acknowledge that I have read The Media Entertainment&rsquo;s <a data-view="legal">Privacy policy</a>. <span class="req">*</span></span></label>
+          <div class="form-actions"><button type="submit" class="btn btn-primary btn-lg">Submit claim <span class="arr">→</span></button><span class="form-note">Urgent? Email legal@themediaente.com</span></div>
+        </form>
+        <div class="form-success"><div class="tick"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l4 4 10-10"/></svg></div><h3>Claim submitted</h3><p>Our rights team will review your report and respond to the email you provided.</p></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ============ LOGIN ============ -->
+<div class="view" id="view-login">
+  <main class="login-wrap">
+    <div class="glow glow-a"></div>
+    <div class="login-card">
+      <a class="logo" data-view="home">
+        <svg class="logo-mark" viewBox="0 0 40 44" fill="none" aria-hidden="true">
+          <path d="M13.5 7 L31 11" stroke="var(--red)" stroke-width="4.5" stroke-linecap="round"/>
+          <rect x="11.2" y="7" width="4.6" height="25" rx="2.3" fill="var(--red)"/>
+          <rect x="28.6" y="11" width="4.6" height="21" rx="2.3" fill="var(--red)"/>
+          <circle cx="9.8" cy="34" r="6.8" fill="var(--red)"/>
+          <circle cx="27.2" cy="34" r="6.8" fill="var(--red)"/>
+        </svg>
+        <span class="logo-text"><b>THE MEDIA</b><span>Entertainment</span></span>
+      </a>
+      <h1>Welcome back</h1>
+      <p class="sub">Log in to your client dashboard.</p>
+      <form data-login novalidate>
+        <div class="field"><label>Email</label><input type="email" name="email" placeholder="you@email.com" required autocomplete="email"></div>
+        <div class="field"><label>Password</label><input type="password" name="password" placeholder="••••••••" required autocomplete="current-password"></div>
+        <div class="login-meta"><label><input type="checkbox" name="remember"> Remember me</label><a>Forgot password?</a></div>
+        <button type="submit" class="btn btn-primary btn-lg">Sign in</button>
+      </form>
+      <p class="login-foot">New here? <a data-view="apply">Apply for an account</a></p>
+    </div>
+  </main>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="col brand-col">
+        <a class="logo" data-view="home">
+          <svg class="logo-mark" viewBox="0 0 40 44" fill="none" aria-hidden="true">
+            <path d="M13.5 7 L31 11" stroke="var(--red)" stroke-width="4.5" stroke-linecap="round"/>
+            <rect x="11.2" y="7" width="4.6" height="25" rx="2.3" fill="var(--red)"/>
+            <rect x="28.6" y="11" width="4.6" height="21" rx="2.3" fill="var(--red)"/>
+            <circle cx="9.8" cy="34" r="6.8" fill="var(--red)"/>
+            <circle cx="27.2" cy="34" r="6.8" fill="var(--red)"/>
+          </svg>
+          <span class="logo-text"><b>THE MEDIA</b><span>Entertainment</span></span>
+        </a>
+        <p>Music distribution and rights for independent artists, labels and publishers. themediaente.com</p>
+      </div>
+      <div class="col"><h5>Services</h5>
+        <a data-view="home" data-scroll="services">Distribution</a>
+        <a data-view="home" data-scroll="services">Anti-piracy</a>
+        <a data-view="home" data-scroll="services">Marketing</a>
+        <a data-view="home" data-scroll="services">Video editing</a>
+        <a data-view="home" data-scroll="services">Catalog management</a>
+      </div>
+      <div class="col"><h5>Company</h5>
+        <a data-view="apply">Apply</a>
+        <a data-view="login">Client login</a>
+        <a data-view="legal">Legal &amp; copyright</a>
+        <a data-view="home" data-scroll="why">Why us</a>
+      </div>
+      <div class="col"><h5>Get started</h5>
+        <a data-view="apply">Become a client</a>
+        <a data-view="legal">Report an issue</a>
+        <a href="mailto:hello@themediaente.com">hello@themediaente.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 The Media Entertainment. All rights reserved.</span>
+      <span>themediaente.com</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var nav = document.querySelector('.nav');
+  var views = ['home','apply','legal','login'];
+
+  function showView(name, scrollId){
+    if(views.indexOf(name) === -1) name = 'home';
+    views.forEach(function(v){
+      document.getElementById('view-'+v).classList.toggle('active', v===name);
+    });
+    window.scrollTo(0,0);
+    try{ location.hash = '#/'+name; }catch(e){}
+    if(scrollId){
+      var el = document.getElementById(scrollId);
+      if(el) setTimeout(function(){ el.scrollIntoView({behavior:'smooth'}); }, 40);
+    }
+  }
+
+  // nav background on scroll
+  var onScroll = function(){ nav.classList.toggle('scrolled', window.scrollY > 12); };
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  // mobile menu
+  var toggle = document.querySelector('.nav-toggle');
+  if(toggle){ toggle.addEventListener('click', function(){ nav.classList.toggle('open'); }); }
+
+  // all internal navigation via [data-view]
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('[data-view]');
+    if(a){
+      e.preventDefault();
+      nav.classList.remove('open');
+      showView(a.getAttribute('data-view'), a.getAttribute('data-scroll'));
+    }
+  });
+
+  // choice chips visual state
+  document.querySelectorAll('.choice input').forEach(function(input){
+    var sync = function(){
+      if(input.type==='radio'){
+        document.querySelectorAll('input[name="'+input.name+'"]').forEach(function(r){
+          r.closest('.choice').classList.toggle('checked', r.checked);
+        });
+      } else { input.closest('.choice').classList.toggle('checked', input.checked); }
+    };
+    input.addEventListener('change', sync); sync();
+  });
+
+  // form submit -> send to Web3Forms (submissions arrive in your email)
+  // SETUP: get a free Access Key at https://web3forms.com (enter your email),
+  // then replace YOUR_ACCESS_KEY_HERE in BOTH forms above with that key.
+  document.querySelectorAll('form[data-form]').forEach(function(form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if(!form.checkValidity()){ form.reportValidity(); return; }
+      var done = function(){
+        var card = form.closest('.form-card');
+        form.style.display = 'none';
+        var s = card.querySelector('.form-success');
+        if(s){ s.classList.add('show'); s.scrollIntoView({behavior:'smooth', block:'center'}); }
+      };
+      var keyEl = form.querySelector('[name="access_key"]');
+      var key = keyEl ? keyEl.value : '';
+      // not configured yet -> just show the success state (demo mode)
+      if(!key || key.indexOf('YOUR_ACCESS_KEY') !== -1){ done(); return; }
+      var btn = form.querySelector('button[type="submit"]');
+      var label = btn ? btn.innerHTML : '';
+      if(btn){ btn.disabled = true; btn.innerHTML = 'Sending…'; }
+      fetch('https://api.web3forms.com/submit', {
+        method:'POST', body:new FormData(form), headers:{Accept:'application/json'}
+      }).then(function(r){ return r.json(); }).then(function(d){
+        if(d && d.success){ done(); }
+        else { if(btn){ btn.disabled=false; btn.innerHTML=label; } alert('Sorry, something went wrong sending your form. Please try again.'); }
+      }).catch(function(){
+        if(btn){ btn.disabled=false; btn.innerHTML=label; }
+        alert('Network error — please check your connection and try again.');
+      });
+    });
+  });
+
+  // login form
+  var login = document.querySelector('form[data-login]');
+  if(login){
+    login.addEventListener('submit', function(e){
+      e.preventDefault();
+      if(!login.checkValidity()){ login.reportValidity(); return; }
+      var btn = login.querySelector('button[type="submit"]');
+      var prev = btn.textContent; btn.textContent = 'Signing in…'; btn.disabled = true;
+      setTimeout(function(){ btn.textContent = prev; btn.disabled = false;
+        alert('Login is not connected yet. Hook this form up to your dashboard / auth backend.'); }, 700);
+    });
+  }
+
+  // open correct view on load (supports #/apply etc.)
+  var init = (location.hash || '').replace('#/','');
+  showView(views.indexOf(init) !== -1 ? init : 'home');
+})();
+</script>
+</body>
+</html>
