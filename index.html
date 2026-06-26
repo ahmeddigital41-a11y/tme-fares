@@ -398,7 +398,7 @@ p{margin:0}
       </div>
       <div class="form-card">
         <form data-form novalidate>
-          <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+          <input type="hidden" name="access_key" value="982ddc94-12dd-4004-9a3a-fd0c6756dc49">
           <input type="hidden" name="subject" value="New application — The Media Entertainment">
           <input type="hidden" name="from_name" value="The Media — Apply form">
           <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
@@ -472,7 +472,7 @@ p{margin:0}
       </div>
       <div class="form-card">
         <form data-form novalidate>
-          <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+          <input type="hidden" name="access_key" value="982ddc94-12dd-4004-9a3a-fd0c6756dc49">
           <input type="hidden" name="subject" value="New legal / copyright claim — The Media Entertainment">
           <input type="hidden" name="from_name" value="The Media — Legal form">
           <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
@@ -592,7 +592,10 @@ p{margin:0}
       document.getElementById('view-'+v).classList.toggle('active', v===name);
     });
     window.scrollTo(0,0);
-    try{ location.hash = '#/'+name; }catch(e){}
+    try{
+      if(name === 'home'){ history.replaceState(null, '', location.pathname + location.search); }
+      else { location.hash = '#/'+name; }
+    }catch(e){}
     if(scrollId){
       var el = document.getElementById(scrollId);
       if(el) setTimeout(function(){ el.scrollIntoView({behavior:'smooth'}); }, 40);
